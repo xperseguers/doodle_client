@@ -19,10 +19,12 @@ namespace Causal\DoodleClient;
 define('LF', "\n");
 define('TAB', "\t");
 
+use Causal\DoodleClient\Domain\Model\Poll;
+
 /**
- * Client for Doodle (http://doodle.com)
+ * Client for Doodle (http://doodle.com).
  *
- * @package Causal
+ * @package Causal\DoodleClient
  */
 class Client {
 
@@ -40,6 +42,11 @@ class Client {
      * @var string
      */
     protected $userAgent;
+
+    /**
+     * @var string
+     */
+    protected $locale;
 
     /**
      * @var string
@@ -62,6 +69,7 @@ class Client {
         $this->username = $username;
         $this->password = $password;
         $this->userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.99 Safari/537.36';
+        $this->locale = 'en_GB';
         $this->cookiePath = sys_get_temp_dir();
         $this->token = $this->getToken();
     }
@@ -85,6 +93,28 @@ class Client {
     public function setUserAgent($userAgent)
     {
         $this->userAgent = $userAgent;
+        return $this;
+    }
+
+    /**
+     * Returns the locale.
+     *
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+     * Sets the locale.
+     *
+     * @param string $locale
+     * @return $this
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
         return $this;
     }
 
@@ -113,7 +143,7 @@ class Client {
     /**
      * Connects to Doodle.
      *
-     * @return bool
+     * @return bool Returns true if connection succeeded, otherwise false
      */
     public function connect()
     {
@@ -140,56 +170,106 @@ class Client {
         // 3 - Define the token we want to use
         $this->generateToken();
 
-        // 4 - Retrieve user info
-        $response = $this->doGet('https://doodle.com/np/users/me?isMobile=false&includeKalsysInfos=false&token=' . $this->token);
-        //$userInfo = json_decode($response, true);
-
         return true;
+    }
+
+    /**
+     * Disconnects from Dodle.
+     *
+     * @return bool Returns true if disconnect succeeded, otherwise false
+     */
+    public function disconnect()
+    {
+        $cookieFileName = $this->getCookieFileName();
+        if (file_exists($cookieFileName)) {
+            return unlink($cookieFileName);
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns user information.
+     *
+     * @return array
+     */
+    public function getUserInfo()
+    {
+        $data = array(
+            'isMobile' => 'false',
+            'includeKalsysInfos' => 'false',
+            'token' => $this->token,
+        );
+        $response = $this->doGet('https://doodle.com/np/users/me', $data);
+        $userInfo = json_decode($response, true);
+
+        return $userInfo;
     }
 
     /**
      * Returns personal polls.
      *
-     * @return array
+     * @return Poll[]
      */
     public function getPersonalPolls()
     {
-        $response = $this->doGet('https://doodle.com/np/users/me/dashboard/myPolls?fullList=true&locale=fr_CH&token=' . $this->token);
+        $data = array(
+            'fullList' => 'true',
+            'locale' => $this->locale,
+            'token' => $this->token,
+        );
+        $response = $this->doGet('https://doodle.com/np/users/me/dashboard/myPolls', $data);
         $polls = json_decode($response, true);
 
+        $objects = array();
         if (!empty($polls['myPolls']['myPolls'])) {
-            return $polls['myPolls']['myPolls'];
+            foreach ($polls['myPolls']['myPolls'] as $poll) {
+                $objects[] = Poll::create($poll);
+            }
         }
 
-        return array();
+        return $objects;
     }
 
     /**
      * Returns other polls.
      *
-     * @return array
+     * @return Poll[]
      */
     public function getOtherPolls()
     {
-        $response = $this->doGet('https://doodle.com/np/users/me/dashboard/otherPolls?fullList=true&locale=fr_CH&token=' . $this->token);
+        $data = array(
+            'fullList' => 'true',
+            'locale' => $this->locale,
+            'token' => $this->token,
+        );
+        $response = $this->doGet('https://doodle.com/np/users/me/dashboard/otherPolls', $data);
         $polls = json_decode($response, true);
 
+        $objects = array();
         if (!empty($polls['otherPolls']['otherPolls'])) {
-            return $polls['otherPolls']['otherPolls'];
+            foreach ($polls['otherPolls']['otherPolls'] as $poll) {
+                $objects[] = Poll::create($poll);
+            }
         }
 
-        return $polls;
+        return $objects;
     }
 
     /**
      * Performs a GET request on a given URL.
      *
      * @param string $url
+     * @param array $data
      * @return string
      */
-    protected function doGet($url)
+    protected function doGet($url, array $data = array())
     {
         $cookieFileName = $this->getCookieFileName();
+
+        if (!empty($data)) {
+            $url .= '?' . http_build_query($data);
+        }
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -329,7 +409,8 @@ EOT;
 
         $cookies = $this->getCookies();
 
-        // Lifetime must be the same as DoodleAuthentication and DoodleIdentification cookies because we set those and this one only on login
+        // Lifetime must be the same as DoodleAuthentication and DoodleIdentification cookies
+        // because we set those and this one only on login
         $cookies['token'] = $cookies['DoodleAuthentication'];
         $cookies['token']['name'] = 'token';
         $cookies['token']['value'] = $randomString;
@@ -339,13 +420,3 @@ EOT;
     }
 
 }
-
-$doodleUsername = 'email@example.com';
-$doodlePassword = 'my-password';
-$client = new Client($doodleUsername, $doodlePassword);
-$client->connect();
-
-$myPolls = $client->getPersonalPolls();
-
-echo '<h1>My polls</h1>';
-echo '<pre>'; print_r($myPolls); echo '</pre>';
