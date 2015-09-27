@@ -22,7 +22,7 @@ Example of use
 $doodleUsername = 'me@example.com';
 $doodlePassword = 'my-very-secret-password';
 
-$client = new Client($doodleUsername, $doodlePassword);
+$client = new \Causal\DoodleClient\Client($doodleUsername, $doodlePassword);
 $client->connect();
 
 $myPolls = $client->getPersonalPolls();
