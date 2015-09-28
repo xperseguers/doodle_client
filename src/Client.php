@@ -161,7 +161,7 @@ class Client {
      */
     public function setCookiePath($cookiePath)
     {
-        $this->cookiePath = $cookiePath;
+        $this->cookiePath = rtrim($cookiePath, '/') . '/';
         return $this;
     }
 
