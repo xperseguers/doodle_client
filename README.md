@@ -15,8 +15,8 @@ participant answers so I contacted them and got this answer on September 25th, 2
 As such I wrote this PHP client.
 
 
-Example of use
-==============
+Basic Usage
+===========
 
 ```
 $doodleUsername = 'me@example.com';
@@ -40,4 +40,56 @@ echo '</ul>';
 // Optional, if you want to prevent actually authenticating over and over again
 // with future requests (thus reusing the local authentication cookies)
 $client->disconnect();
+```
+
+
+Table of Answers
+================
+
+Another example of use, would be to fetch answers for a given poll.
+
+```
+// Selection of a given poll could be based on any "$poll" from the
+// foreach loop in "Basic Usage" example.
+
+echo '<table>';
+
+echo '<thead>';
+echo '<tr>';
+echo '<th></th>';
+$options = $poll->getOptions();
+foreach ($options as $option) {
+    echo '<th>' . htmlspecialchars($option) . '</th>';
+}
+echo '</tr>';
+echo '</thead>';
+
+echo '<tbody>';
+$participants = $poll->getParticipants();
+foreach ($participants as $participant) {
+    echo '<tr>';
+    echo '<td>' . htmlspecialchars($participant->getName()) . '</td>';
+    foreach ($participant->getPreferences() as $preference) {
+        switch ($preference) {
+            case 'i':
+                $value = 'If needed';
+                $color = 'yellow';
+                break;
+            case 'y':
+                $value = 'YES';
+                $color = 'green';
+                break;
+            case 'n':
+            default:
+                $value = 'NO';
+                $color = 'red';
+                break;
+        }
+        echo '<td style="background-color:' . $color . '">' . htmlspecialchars($value) . '</td>';
+    }
+    echo '</tr>';
+}
+echo '</tbody>';
+
+echo '</table>';
 ```

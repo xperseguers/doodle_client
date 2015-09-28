@@ -1,6 +1,4 @@
 <?php
-namespace Causal\DoodleClient\Domain\Repository;
-
 /*
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,11 +14,16 @@ namespace Causal\DoodleClient\Domain\Repository;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace Causal\DoodleClient\Domain\Repository;
+
 use Causal\DoodleClient\Client;
+use Causal\DoodleClient\Domain\Model\Option;
+use Causal\DoodleClient\Domain\Model\Participant;
+use Causal\DoodleClient\Domain\Model\Preference;
 use Causal\DoodleClient\Domain\Model\Poll;
 
 /**
- * Class PollRepository
+ * Class PollRepository.
  *
  * @package Causal\DoodleClient\Domain\Repository
  */
@@ -94,12 +97,71 @@ class PollRepository
     {
         $info = $poll->_getInfo();
         if ($info === null) {
-            $info = $this->client->getInfo($poll);
+            $info = $this->client->_getInfo($poll);
             $poll->_setInfo($info);
         }
 
         $description = $this->decodeHtml($info['descriptionHTML']);
         $poll->setDescription($description);
+    }
+
+    /**
+     * Injects the option of a given poll.
+     *
+     * @param Poll $poll
+     * @return void
+     */
+    public function injectOptions(Poll $poll)
+    {
+        $info = $poll->_getInfo();
+        if ($info === null) {
+            $info = $this->client->_getInfo($poll);
+            $poll->_setInfo($info);
+        }
+
+        $type = $poll->getType();
+        $options = array();
+        foreach ($info['optionsText'] as $optionText) {
+            $option = $type === 'DATE'
+                ? new \DateTime($optionText)
+                : $optionText;
+            $options[] = new Option($option);
+        }
+        $poll->setOptions($options);
+    }
+
+    /**
+     * Injects the participants.
+     *
+     * @param Poll $poll
+     * @return void
+     */
+    public function injectParticipants(Poll $poll)
+    {
+        $info = $poll->_getInfo();
+        if ($info === null) {
+            $info = $this->client->_getInfo($poll);
+            $poll->_setInfo($info);
+        }
+
+        $options = $poll->getOptions();
+        $countOptions = count($options);
+        $participants = array();
+        foreach ($info['participants'] as $p) {
+            $preferences = array();
+            for ($i = 0; $i < $countOptions; $i++) {
+                $preferences[] = new Preference($options[$i], $p['preferences']{$i});
+            }
+
+            $participant = new Participant($p['id']);
+            $participant
+                ->setName($p['name'])
+                ->setAvatar(isset($p['avatar']) ? $p['avatar'] : '')
+                ->setPreferences($preferences);
+
+            $participants[] = $participant;
+        }
+        $poll->setParticipants($participants);
     }
 
     /**

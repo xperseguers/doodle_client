@@ -1,6 +1,4 @@
 <?php
-namespace Causal\DoodleClient\Domain\Model;
-
 /*
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,6 +14,10 @@ namespace Causal\DoodleClient\Domain\Model;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+namespace Causal\DoodleClient\Domain\Model;
+
+use Causal\DoodleClient\Domain\Model\Option;
+use Causal\DoodleClient\Domain\Model\Participant;
 use Causal\DoodleClient\Domain\Repository\PollRepository;
 
 /**
@@ -127,6 +129,16 @@ class Poll
      * @var string
      */
     protected $description = null;
+
+    /**
+     * @var Option[]
+     */
+    protected $options = null;
+
+    /**
+     * @var Participant[]
+     */
+    protected $participants = null;
 
     /**
      * Poll constructor.
@@ -503,7 +515,7 @@ class Poll
         {
             $this->_repository->injectDescription($this);
         }
-        return $this->description;
+        return $this->description ?: '';
     }
 
     /**
@@ -515,6 +527,56 @@ class Poll
     public function setDescription($description)
     {
         $this->description = $description;
+        return $this;
+    }
+
+    /**
+     * Returns the options.
+     *
+     * @return Option[]
+     */
+    public function getOptions()
+    {
+        if ($this->options === null && $this->_repository !== null) {
+            $this->_repository->injectOptions($this);
+        }
+        return $this->options ?: array();
+    }
+
+    /**
+     * Sets the options.
+     *
+     * @param Option[] $options
+     * @return $this
+     */
+    public function setOptions(array $options)
+    {
+        $this->options = $options;
+        return $this;
+    }
+
+    /**
+     * Returns the participants.
+     *
+     * @return Participant[]
+     */
+    public function getParticipants()
+    {
+        if ($this->participants === null && $this->_repository !== null) {
+            $this->_repository->injectParticipants($this);
+        }
+        return $this->participants ?: array();
+    }
+
+    /**
+     * Sets the participants.
+     *
+     * @param Participant[] $participants
+     * @return $this
+     */
+    public function setParticipants(array $participants)
+    {
+        $this->participants = $participants;
         return $this;
     }
 
