@@ -19,6 +19,24 @@ namespace Causal\DoodleClient;
 define('LF', "\n");
 define('TAB', "\t");
 
+// Check for the json extension, the Doodle PHP Client won't function
+// without it.
+if (!function_exists('json_decode')) {
+    throw new Exception('Doodle PHP Client requires the JSON PHP extension', 1443411993);
+}
+
+if (!function_exists('curl_init')) {
+    throw new Exception('Doodle PHP Client requires the cURL PHP extension', 1443412007);
+}
+
+if (!function_exists('http_build_query')) {
+    throw new Exception('Doodle PHP Client requires http_build_query()', 1443412105);
+}
+
+if (! ini_get('date.timezone') && function_exists('date_default_timezone_set')) {
+    date_default_timezone_set('UTC');
+}
+
 use Causal\DoodleClient\Domain\Model\Poll;
 
 /**
@@ -68,7 +86,7 @@ class Client {
     {
         $this->username = $username;
         $this->password = $password;
-        $this->userAgent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.99 Safari/537.36';
+        $this->userAgent = sprintf('Mozilla/5.0 (%s %s %s) Doodle PHP Client', php_uname('s'), php_uname('r'), php_uname('m'));
         $this->locale = 'en_GB';
         $this->cookiePath = sys_get_temp_dir();
         $this->token = $this->getToken();
