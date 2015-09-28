@@ -140,8 +140,15 @@ class Poll
             ->setAskEmail((bool)$data['askEmail'])
             ->setAskPhone((bool)$data['askPhone'])
             ->setAmINotified((bool)$data['amINotified'])
-            ->setLastWriteAccess(new \DateTime($data['lastWriteAccess']))
-            ->setLastActivity(new \DateTime($data['lastActivity']));
+            ->setLastWriteAccess(new \DateTime($data['lastWriteAccess']));
+
+        // Possible exception
+        try {
+            $lastActivity = new \DateTime($data['lastActivity']);
+        } catch (\Exception $e) {
+            $lastActivity = new \DateTime();
+        }
+        $poll->setLastActivity($lastActivity);
 
         // Optional, possibly missing, attributes
         if (!empty($data['adminKey'])) {
