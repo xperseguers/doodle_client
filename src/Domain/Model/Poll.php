@@ -501,7 +501,12 @@ class Poll
      */
     public function getPublicUrl()
     {
-        return 'http://doodle.com/poll/' . $this->getId();
+        if (!empty($this->_info['prettyUrl'])) {
+            $publicUrl = $this->_info['prettyUrl'];
+        } else {
+            $publicUrl = 'http://doodle.com/poll/' . $this->getId();
+        }
+        return $publicUrl;
     }
 
     /**
