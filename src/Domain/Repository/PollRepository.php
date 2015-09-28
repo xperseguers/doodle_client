@@ -88,6 +88,22 @@ class PollRepository
     }
 
     /**
+     * Injects the information of a given poll.
+     *
+     * @param Poll $poll
+     * @return array
+     */
+    public function injectInfo(Poll $poll)
+    {
+        $info = $poll->_getInfo();
+        if ($info === null) {
+            $info = $this->client->_getInfo($poll);
+            $poll->_setInfo($info);
+        }
+        return $info;
+    }
+
+    /**
      * Injects the description of a given poll.
      *
      * @param Poll $poll
@@ -95,12 +111,7 @@ class PollRepository
      */
     public function injectDescription(Poll $poll)
     {
-        $info = $poll->_getInfo();
-        if ($info === null) {
-            $info = $this->client->_getInfo($poll);
-            $poll->_setInfo($info);
-        }
-
+        $info = $this->injectInfo($poll);
         $description = $this->decodeHtml($info['descriptionHTML']);
         $poll->setDescription($description);
     }
@@ -113,12 +124,7 @@ class PollRepository
      */
     public function injectOptions(Poll $poll)
     {
-        $info = $poll->_getInfo();
-        if ($info === null) {
-            $info = $this->client->_getInfo($poll);
-            $poll->_setInfo($info);
-        }
-
+        $info = $this->injectInfo($poll);
         $type = $poll->getType();
         $options = array();
         foreach ($info['optionsText'] as $optionText) {
@@ -138,12 +144,7 @@ class PollRepository
      */
     public function injectParticipants(Poll $poll)
     {
-        $info = $poll->_getInfo();
-        if ($info === null) {
-            $info = $this->client->_getInfo($poll);
-            $poll->_setInfo($info);
-        }
-
+        $info = $this->injectInfo($poll);
         $options = $poll->getOptions();
         $countOptions = count($options);
         $participants = array();

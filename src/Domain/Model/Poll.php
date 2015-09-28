@@ -586,6 +586,45 @@ class Poll
     }
 
     /**
+     * Returns the export Excel URL.
+     *
+     * @return string
+     */
+    public function getExportExcelUrl()
+    {
+        if ($this->_info === null && $this->_repository !== null) {
+            $this->_repository->injectInfo($poll);
+        }
+        return !empty($this->_info['exportExcelUrl']) ? 'https://doodle.com' . $this->_info['exportExcelUrl'] : '';
+    }
+
+    /**
+     * Returns the export PDF URL.
+     *
+     * @return string
+     */
+    public function getExportPdfUrl()
+    {
+        if ($this->_info === null && $this->_repository !== null) {
+            $this->_repository->injectInfo($poll);
+        }
+        return !empty($this->_info['exportPdfUrl']) ? 'https://doodle.com' . $this->_info['exportPdfUrl'] : '';
+    }
+
+    /**
+     * Returns the export Print URL.
+     *
+     * @return string
+     */
+    public function getExportPrintUrl()
+    {
+        if ($this->_info === null && $this->_repository !== null) {
+            $this->_repository->injectInfo($poll);
+        }
+        return !empty($this->_info['exportPrintUrl']) ? 'https://doodle.com' . $this->_info['exportPrintUrl'] : '';
+    }
+
+    /**
      * @return array|null
      * @internal
      */

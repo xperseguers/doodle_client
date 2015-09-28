@@ -33,6 +33,9 @@ foreach ($myPolls as $poll) {
     echo '<li>';
     echo '<a href="' . htmlspecialchars($poll->getPublicUrl()) . '">' . htmlspecialchars($poll->getTitle()) . '</a>';
     echo '<blockquote>' . nl2br($poll->getDescription()) . '</blockquote>';
+    echo 'Export answers as: ' .
+        '<a href="' . htmlspecialchars($poll->getExportExcelUrl()) . '">Excel</a> | ' .
+        '<a href="' . htmlspecialchars($poll->getExportPdfUrl()) . '">PDF</a>';
     echo '</li>';
 }
 echo '</ul>';
