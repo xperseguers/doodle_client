@@ -174,7 +174,7 @@ class Client {
 
         // 1 - Get first login page
         // This page will set some cookies and we will use them for posting in form data
-        $this->doGet('http://doodle.com');
+        $this->doGet('/');
 
         // 2 - Post login data
         $data = array(
@@ -183,7 +183,7 @@ class Client {
             'locale' => $this->locale,
             'timeZone' => date_default_timezone_get(),
         );
-        $response = $this->doPost('https://doodle.com/np/mydoodle/logister', $data);
+        $response = $this->doPost('/np/mydoodle/logister', $data);
 
         // 3 - Define the token we want to use
         $this->generateToken();
@@ -218,7 +218,7 @@ class Client {
             'includeKalsysInfos' => 'false',
             'token' => $this->token,
         );
-        $response = $this->doGet('https://doodle.com/np/users/me', $data);
+        $response = $this->doGet('/np/users/me', $data);
         $userInfo = json_decode($response, true);
 
         return $userInfo;
@@ -236,7 +236,7 @@ class Client {
             'locale' => $this->locale,
             'token' => $this->token,
         );
-        $response = $this->doGet('https://doodle.com/np/users/me/dashboard/myPolls', $data);
+        $response = $this->doGet('/np/users/me/dashboard/myPolls', $data);
         $polls = json_decode($response, true);
 
         $objects = array();
@@ -261,7 +261,7 @@ class Client {
             'locale' => $this->locale,
             'token' => $this->token,
         );
-        $response = $this->doGet('https://doodle.com/np/users/me/dashboard/otherPolls', $data);
+        $response = $this->doGet('/np/users/me/dashboard/otherPolls', $data);
         $polls = json_decode($response, true);
 
         $objects = array();
@@ -287,7 +287,7 @@ class Client {
             'locale' => $this->locale,
             'token' => $this->token,
         );
-        $response = $this->doGet('http://doodle.com/poll/' . $poll->getId(), $data);
+        $response = $this->doGet('/poll/' . $poll->getId(), $data);
 
         $info = array();
         if (($pos = strpos($response, '$.extend(true, doodleJS.data, {"poll"')) !== FALSE) {
@@ -305,52 +305,62 @@ class Client {
     /**
      * Performs a GET request on a given URL.
      *
-     * @param string $url
+     * @param string $relativeUrl
      * @param array $data
      * @return string
      */
-    protected function doGet($url, array $data = array())
+    protected function doGet($relativeUrl, array $data = array())
     {
-        $cookieFileName = $this->getCookieFileName();
-
-        if (!empty($data)) {
-            $url .= '?' . http_build_query($data);
-        }
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_USERAGENT, $this->userAgent);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieFileName);
-        curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieFileName);
-        $result = curl_exec($ch);
-        curl_close($ch);
-
-        return $result;
+        return $this->doRequest('GET', $relativeUrl, $data);
     }
 
     /**
      * Performs a POST request on a given URL.
      *
-     * @param string $url
+     * @param string $relativeUrl
      * @param array $data
      * @return string
      */
-    protected function doPost($url, array $data)
+    protected function doPost($relativeUrl, array $data)
     {
-        $postFields = http_build_query($data);
-        $cookieFileName = $this->getCookieFileName();
+        return $this->doRequest('POST', $relativeUrl, $data);
+    }
 
+    /**
+     * Sends a HTTP request to Doodle.
+     *
+     * @param string $method
+     * @param string $relativeUrl
+     * @param array $data
+     * @return string
+     */
+    protected function doRequest($method, $relativeUrl, array $data)
+    {
+        $scheme = strlen($relativeUrl) > 4 && substr($relativeUrl, 0, 4) === '/np/' ? 'https' : 'http';
+        $url = $scheme . '://doodle.com' . $relativeUrl;
+        $cookieFileName = $this->getCookieFileName();
+        $dataQuery = http_build_query($data);
         $ch = curl_init();
+
+        switch ($method) {
+            case 'GET':
+                if (!empty($dataQuery)) {
+                    $url .= '?' . $dataQuery;
+                }
+                break;
+            case 'POST':
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $dataQuery);
+                break;
+        }
+
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_USERAGENT, $this->userAgent);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_COOKIEFILE, $cookieFileName);
         curl_setopt($ch, CURLOPT_COOKIEJAR, $cookieFileName);
+
         $result = curl_exec($ch);
         curl_close($ch);
 
