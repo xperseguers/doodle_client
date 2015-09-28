@@ -534,7 +534,7 @@ class Poll
      */
     public function _setInfo(array $info)
     {
-        $this->_info;
+        $this->_info = $info;
         return $this;
     }
 
