@@ -16,6 +16,8 @@ namespace Causal\DoodleClient\Domain\Model;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use Causal\DoodleClient\Domain\Repository\PollRepository;
+
 /**
  * Class Poll.
  *
@@ -110,55 +112,32 @@ class Poll
     protected $lastActivity;
 
     /**
+     * @var array
+     * @internal
+     */
+    protected $_info = null;
+
+    /**
+     * @var PollRepository
+     * @internal
+     */
+    protected $_repository = null;
+
+    /**
+     * @var string
+     */
+    protected $description = null;
+
+    /**
      * Poll constructor.
      *
      * @param string $id
+     * @param PollRepository $repository
      */
-    public function __construct($id)
+    public function __construct($id, PollRepository $repository = null)
     {
         $this->id = $id;
-    }
-
-    /**
-     * Creates a new object.
-     *
-     * @param array $data
-     * @return Poll
-     */
-    public static function create(array $data)
-    {
-        $poll = new Poll($data['id']);
-        $poll
-            ->setType($data['type'])
-            ->setTitle($data['title'])
-            ->setState($data['state'])
-            ->setMultiDay((bool)$data['multiDay'])
-            ->setByInvitation((bool)$data['byInvitation'])
-            ->setInviteesCount((int)$data['inviteesCount'])
-            ->setParticipantsCount((int)$data['participantsCount'])
-            ->setAskAddress((bool)$data['askAddress'])
-            ->setAskEmail((bool)$data['askEmail'])
-            ->setAskPhone((bool)$data['askPhone'])
-            ->setAmINotified((bool)$data['amINotified'])
-            ->setLastWriteAccess(new \DateTime($data['lastWriteAccess']));
-
-        // Possible exception
-        try {
-            $lastActivity = new \DateTime($data['lastActivity']);
-        } catch (\Exception $e) {
-            $lastActivity = new \DateTime();
-        }
-        $poll->setLastActivity($lastActivity);
-
-        // Optional, possibly missing, attributes
-        if (!empty($data['adminKey'])) {
-            $poll->setAdminKey($data['adminKey']);
-        }
-        if (!empty($data['rowConstraint'])) {
-            $poll->setRowConstraint((bool)$data['rowConstraint']);
-        }
-
-        return $poll;
+        $this->_repository = $repository;
     }
 
     /**
@@ -511,6 +490,52 @@ class Poll
     public function getPublicUrl()
     {
         return 'http://doodle.com/poll/' . $this->getId();
+    }
+
+    /**
+     * Returns the description.
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        if ($this->description === null && $this->_repository !== null)
+        {
+            $this->_repository->injectDescription($this);
+        }
+        return $this->description;
+    }
+
+    /**
+     * Sets the description.
+     *
+     * @param string $description
+     * @return $this
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    /**
+     * @return array|null
+     * @internal
+     */
+    public function _getInfo()
+    {
+        return $this->_info;
+    }
+
+    /**
+     * @param array $info
+     * @return $this
+     * @internal
+     */
+    public function _setInfo(array $info)
+    {
+        $this->_info;
+        return $this;
     }
 
 }

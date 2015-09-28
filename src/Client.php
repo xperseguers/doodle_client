@@ -38,6 +38,7 @@ if (! ini_get('date.timezone') && function_exists('date_default_timezone_set')) 
 }
 
 use Causal\DoodleClient\Domain\Model\Poll;
+use Causal\DoodleClient\Domain\Repository\PollRepository;
 
 /**
  * Client for Doodle (http://doodle.com).
@@ -77,6 +78,11 @@ class Client {
     protected $token;
 
     /**
+     * @var PollRepository
+     */
+    protected $pollRepository;
+
+    /**
      * Client constructor.
      *
      * @param string $username
@@ -90,6 +96,7 @@ class Client {
         $this->locale = 'en_GB';
         $this->cookiePath = sys_get_temp_dir();
         $this->token = $this->getToken();
+        $this->pollRepository = new PollRepository($this);
     }
 
     /**
@@ -242,7 +249,7 @@ class Client {
         $objects = array();
         if (!empty($polls['myPolls']['myPolls'])) {
             foreach ($polls['myPolls']['myPolls'] as $poll) {
-                $objects[] = Poll::create($poll);
+                $objects[] = $this->pollRepository->create($poll);
             }
         }
 
@@ -267,7 +274,7 @@ class Client {
         $objects = array();
         if (!empty($polls['otherPolls']['otherPolls'])) {
             foreach ($polls['otherPolls']['otherPolls'] as $poll) {
-                $objects[] = Poll::create($poll);
+                $objects[] = $this->pollRepository->create($poll);
             }
         }
 

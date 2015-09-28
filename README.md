@@ -32,6 +32,7 @@ echo '<ul>';
 foreach ($myPolls as $poll) {
     echo '<li>';
     echo '<a href="' . htmlspecialchars($poll->getPublicUrl()) . '">' . htmlspecialchars($poll->getTitle()) . '</a>';
+    echo '<blockquote>' . nl2br($poll->getDescription()) . '</blockquote>';
     echo '</li>';
 }
 echo '</ul>';
