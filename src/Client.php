@@ -275,6 +275,34 @@ class Client {
     }
 
     /**
+     * Returns information about a given poll.
+     *
+     * @param Poll $poll
+     * @return array
+     */
+    public function getInfo(Poll $poll)
+    {
+        $data = array(
+            'adminKey' => '',
+            'locale' => $this->locale,
+            'token' => $this->token,
+        );
+        $response = $this->doGet('http://doodle.com/poll/' . $poll->getId(), $data);
+
+        $info = array();
+        if (($pos = strpos($response, '$.extend(true, doodleJS.data, {"poll"')) !== FALSE) {
+            $json = substr($response, $pos + 30);
+            $json = trim(substr($json, 0, strpos($json, 'doodleJS.data.poll.keywordsJson')));
+            // Remove the end of the javascript code
+            $json = rtrim($json, ');');
+            $info = json_decode($json, true);
+        }
+
+        $info = !empty($info['poll']) ? $info['poll'] : array();
+        return $info;
+    }
+
+    /**
      * Performs a GET request on a given URL.
      *
      * @param string $url
