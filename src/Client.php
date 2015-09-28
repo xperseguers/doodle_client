@@ -180,8 +180,8 @@ class Client {
         $data = array(
             'eMailAddress' => $this->username,
             'password' => $this->password,
-            'locale' => 'fr_CH',
-            'timeZone' => 'Europe/Zurich',
+            'locale' => $this->locale,
+            'timeZone' => date_default_timezone_get(),
         );
         $response = $this->doPost('https://doodle.com/np/mydoodle/logister', $data);
 
