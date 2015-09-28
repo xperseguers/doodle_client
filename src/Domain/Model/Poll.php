@@ -593,7 +593,7 @@ class Poll
     public function getExportExcelUrl()
     {
         if ($this->_info === null && $this->_repository !== null) {
-            $this->_repository->injectInfo($poll);
+            $this->_repository->injectInfo($this);
         }
         return !empty($this->_info['exportExcelUrl']) ? 'https://doodle.com' . $this->_info['exportExcelUrl'] : '';
     }
@@ -606,7 +606,7 @@ class Poll
     public function getExportPdfUrl()
     {
         if ($this->_info === null && $this->_repository !== null) {
-            $this->_repository->injectInfo($poll);
+            $this->_repository->injectInfo($this);
         }
         return !empty($this->_info['exportPdfUrl']) ? 'https://doodle.com' . $this->_info['exportPdfUrl'] : '';
     }
@@ -619,7 +619,7 @@ class Poll
     public function getExportPrintUrl()
     {
         if ($this->_info === null && $this->_repository !== null) {
-            $this->_repository->injectInfo($poll);
+            $this->_repository->injectInfo($this);
         }
         return !empty($this->_info['exportPrintUrl']) ? 'https://doodle.com' . $this->_info['exportPrintUrl'] : '';
     }
