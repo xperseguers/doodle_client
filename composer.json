@@ -22,7 +22,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Causal\\DoodleClient\\": "src/Causal/DoodleClient/"
+      "Causal\\DoodleClient\\": "src/"
     }
   },
   "autoload-dev": { },
