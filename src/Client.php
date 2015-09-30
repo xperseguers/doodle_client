@@ -199,7 +199,7 @@ class Client {
     }
 
     /**
-     * Disconnects from Dodle.
+     * Disconnects from Doodle.
      *
      * @return bool Returns true if disconnect succeeded, otherwise false
      */
