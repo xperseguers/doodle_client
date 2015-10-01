@@ -282,6 +282,122 @@ class Client {
     }
 
     /**
+     * Creates a poll.
+     *
+     * Dates need to be provided as
+     *
+     * <code>
+     * $info['dates'] = [
+     *     'yyyymmdd' => [
+     *         'time1',
+     *         'time2',
+     *         ...
+     *     ],
+     *     ...
+     * ];
+     * </code>
+     *
+     * Examples:
+     *
+     * <code>
+     * // No time
+     * $info['dates'] = [
+     *     '20150929' => [],
+     *     '20150930' => [],
+     *     '20151001' => [],
+     * ];
+     *
+     * // Time
+     * $info['dates'] = [
+     *     '20150929' => ['0830', '1430'],
+     * ];
+     * </code>
+     *
+     * @param array $data
+     * @return Poll
+     * @throws \Exception
+     */
+    public function createPoll(array $info)
+    {
+        $type = strtoupper($info['type']) === Poll::TYPE_TEXT ? Poll::TYPE_TEXT : Poll::TYPE_DATE;
+        $data = array(
+            'title' => trim($info['title']),
+            'locName' => trim($info['location']),
+            'description' => trim($info['description']),
+            'initiatorAlias' => trim($info['name']),
+            'initiatorEmail' => trim($info['email']),
+            'hidden' => 'false',
+            'ifNeedBe' => 'false',
+            'askAddress' => 'false',
+            'askEmail' => 'false',
+            'askPhone' => 'false',
+            'multiDay' => 'false',
+            'byInvitation' => 'false',
+            'withTzSupport' => 'false',
+            //'columnConstraint' => 0,    // maximum number of participants per option
+            'optionsMode' => strtolower($type),
+            'currentYear' => date('Y'),
+            'currentMonth' => date('n'),
+            'type' => $type,
+            'createdOnCalendarView' => 'false',
+            'shownCalendars' => '',
+            'country' => 'CH',
+            'locale' => $this->locale,
+            'token' => $this->token,
+        );
+
+        // Optional parameters
+        if (isset($info['ifNeedBe'])) {
+            $data['ifNeedBe'] = (bool)$info['ifNeedBe'] ? 'true' : 'false';
+        }
+        if (isset($info['hidden'])) {
+            $data['hidden'] = (bool)$info['hidden'] ? 'true' : 'false';
+        }
+        // Require a premium account or will be ignored
+        if (isset($info['askAddress'])) {
+            $data['askAddress'] = (bool)$info['askAddress'] ? 'true' : 'false';
+        }
+        if (isset($info['askEmail'])) {
+            $data['askEmail'] = (bool)$info['askEmail'] ? 'true' : 'false';
+        }
+        if (isset($info['askPhone'])) {
+            $data['askPhone'] = (bool)$info['askPhone'] ? 'true' : 'false';
+        }
+
+        if ($type === Poll::TYPE_TEXT) {
+            foreach ($info['options'] as $option) {
+                $data['options'][] = trim($option);
+            }
+        } else {
+            foreach ($info['dates'] as $date => $times) {
+                if (!empty($times)) {
+                    foreach ($times as $time) {
+                        $data['options'][] = $date . $time;
+                    }
+                } else {
+                    // No time given
+                    $data['options'][] = $date;
+                }
+            }
+        }
+
+        $response = $this->doPost('/np/new-polls/', $data);
+        $ret = json_decode($response, true);
+
+        if (empty($ret['id'])) {
+            throw new \Exception($response, 1443718401);
+        }
+
+        $poll = new Poll($ret['id']);
+        $poll
+            ->setByInvitation($ret['byInvitation'])
+            ->setState($ret['state'])
+            ->setAdminKey($ret['adminKey'])
+            ->setTitle($ret['title']);
+        return $poll;
+    }
+
+    /**
      * Returns information about a given poll.
      *
      * @param Poll $poll
@@ -348,6 +464,7 @@ class Client {
         $url = $scheme . '://doodle.com' . $relativeUrl;
         $cookieFileName = $this->getCookieFileName();
         $dataQuery = http_build_query($data);
+        $dataQuery = preg_replace('/%5B(?:[0-9]|[1-9][0-9]+)%5D=/', '%5B%5D=', $dataQuery);
         $ch = curl_init();
 
         switch ($method) {

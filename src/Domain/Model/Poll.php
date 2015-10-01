@@ -29,6 +29,7 @@ class Poll
 {
 
     const TYPE_TEXT = 'TEXT';
+    const TYPE_DATE = 'DATE';
 
     const STATE_OPEN = 'OPEN';
     const STATE_CLOSED = 'CLOSED';

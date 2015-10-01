@@ -129,7 +129,7 @@ class PollRepository
         $type = $poll->getType();
         $options = array();
         foreach ($info['optionsText'] as $optionText) {
-            $option = $type === 'DATE'
+            $option = $type === Poll::TYPE_DATE
                 ? new \DateTime($optionText)
                 : $optionText;
             $options[] = new Option($option);
