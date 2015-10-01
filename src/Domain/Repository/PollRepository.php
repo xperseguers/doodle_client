@@ -17,6 +17,7 @@
 namespace Causal\DoodleClient\Domain\Repository;
 
 use Causal\DoodleClient\Client;
+use Causal\DoodleClient\Domain\Model\Location;
 use Causal\DoodleClient\Domain\Model\Option;
 use Causal\DoodleClient\Domain\Model\Participant;
 use Causal\DoodleClient\Domain\Model\Preference;
@@ -163,6 +164,28 @@ class PollRepository
             $participants[] = $participant;
         }
         $poll->setParticipants($participants);
+    }
+
+    /**
+     * Injects the location.
+     *
+     * @param Poll $poll
+     * @return void
+     */
+    public function injectLocation(Poll $poll)
+    {
+        $location = null;
+        $info = $this->injectInfo($poll);
+        if (!empty($info['location'])) {
+            $location = new Location($info['location']['name']);
+            if (!empty($info['location']['address'])) {
+                $location->setAddress($info['location']['address']);
+            }
+            if (!empty($info['location']['country'])) {
+                $location->setCountry($info['location']['country']);
+            }
+        }
+        $poll->setLocation($location);
     }
 
     /**

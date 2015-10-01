@@ -144,6 +144,11 @@ class Poll
     protected $participants = null;
 
     /**
+     * @var Location
+     */
+    protected $location = false;
+
+    /**
      * Poll constructor.
      *
      * @param string $id
@@ -586,6 +591,31 @@ class Poll
     public function setParticipants(array $participants)
     {
         $this->participants = $participants;
+        return $this;
+    }
+
+    /**
+     * Returns the location.
+     *
+     * @return Location
+     */
+    public function getLocation()
+    {
+        if ($this->location === false && $this->_repository !== null) {
+            $this->_repository->injectLocation($this);
+        }
+        return $this->location ?: null;
+    }
+
+    /**
+     * Sets the location.
+     *
+     * @param Location $location
+     * @return $this
+     */
+    public function setLocation(Location $location = null)
+    {
+        $this->location = $location;
         return $this;
     }
 
