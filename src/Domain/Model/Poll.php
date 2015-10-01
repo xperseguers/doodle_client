@@ -33,6 +33,9 @@ class Poll
     const STATE_OPEN = 'OPEN';
     const STATE_CLOSED = 'CLOSED';
 
+    const MAX_LENGTH_TITLE = 64;
+    const MAX_LENGTH_DESCRIPTION = 512;
+
     /**
      * @var string
      */
@@ -203,8 +206,8 @@ class Poll
      */
     public function setTitle($title)
     {
-        $this->title = $title;
-
+        $title = trim($title);
+        $this->title = substr($title, 0, min(static::MAX_LENGTH_TITLE, strlen($title)));
         return $this;
     }
 
@@ -270,7 +273,7 @@ class Poll
      */
     public function setMultiDay($multiDay)
     {
-        $this->multiDay = $multiDay;
+        $this->multiDay = (bool)$multiDay;
         return $this;
     }
 
@@ -292,7 +295,7 @@ class Poll
      */
     public function setRowConstraint($rowConstraint)
     {
-        $this->rowConstraint = $rowConstraint;
+        $this->rowConstraint = (bool)$rowConstraint;
         return $this;
     }
 
@@ -314,7 +317,7 @@ class Poll
      */
     public function setByInvitation($byInvitation)
     {
-        $this->byInvitation = $byInvitation;
+        $this->byInvitation = (bool)$byInvitation;
         return $this;
     }
 
@@ -336,7 +339,7 @@ class Poll
      */
     public function setInviteesCount($inviteesCount)
     {
-        $this->inviteesCount = $inviteesCount;
+        $this->inviteesCount = (int)$inviteesCount;
         return $this;
     }
 
@@ -358,7 +361,7 @@ class Poll
      */
     public function setParticipantsCount($participantsCount)
     {
-        $this->participantsCount = $participantsCount;
+        $this->participantsCount = (int)$participantsCount;
         return $this;
     }
 
@@ -380,7 +383,7 @@ class Poll
      */
     public function setAskAddress($askAddress)
     {
-        $this->askAddress = $askAddress;
+        $this->askAddress = (bool)$askAddress;
         return $this;
     }
 
@@ -402,7 +405,7 @@ class Poll
      */
     public function setAskEmail($askEmail)
     {
-        $this->askEmail = $askEmail;
+        $this->askEmail = (bool)$askEmail;
         return $this;
     }
 
@@ -424,7 +427,7 @@ class Poll
      */
     public function setAskPhone($askPhone)
     {
-        $this->askPhone = $askPhone;
+        $this->askPhone = (bool)$askPhone;
         return $this;
     }
 
@@ -446,7 +449,7 @@ class Poll
      */
     public function setAmINotified($amINotified)
     {
-        $this->amINotified = $amINotified;
+        $this->amINotified = (bool)$amINotified;
         return $this;
     }
 
@@ -531,7 +534,8 @@ class Poll
      */
     public function setDescription($description)
     {
-        $this->description = $description;
+        $description = trim($description);
+        $this->description = substr($description, 0, min(static::MAX_LENGTH_DESCRIPTION, strlen($description)));
         return $this;
     }
 
