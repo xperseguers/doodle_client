@@ -172,16 +172,16 @@ class Client {
      */
     public function connect()
     {
+        // 1 - Get first login page
+        // This page will set some cookies and we will use them for posting in form data
+        $this->doGet('/');
+
         $this->token = $this->getToken();
         if ($this->token !== null)
         {
             // Already properly authenticated
             return;
         }
-
-        // 1 - Get first login page
-        // This page will set some cookies and we will use them for posting in form data
-        $this->doGet('/');
 
         // 2 - Post login data
         $data = array(
