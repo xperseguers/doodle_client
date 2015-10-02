@@ -118,16 +118,20 @@ foreach ($participants as $participant) {
         switch ($preference) {
             case 'i':
                 $value = 'If needed';
-                $color = 'yellow';
+                $color = '#ffeda1';
                 break;
             case 'y':
                 $value = 'YES';
-                $color = 'green';
+                $color = '#d1f3d1';
                 break;
             case 'n':
-            default:
                 $value = 'NO';
-                $color = 'red';
+                $color = '#ffccca';
+                break;
+            case 'q':
+            default:
+                $value = '?';
+                $color = '#eaeaea';
                 break;
         }
         echo '<td style="background-color:' . $color . '">' . htmlspecialchars($value) . '</td>';

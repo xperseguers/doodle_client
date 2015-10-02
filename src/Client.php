@@ -313,7 +313,7 @@ class Client {
      * ];
      * </code>
      *
-     * @param array $data
+     * @param array $info
      * @return Poll
      * @throws \Exception
      */
