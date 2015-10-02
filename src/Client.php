@@ -398,6 +398,26 @@ class Client {
     }
 
     /**
+     * Deletes a poll.
+     *
+     * @param Poll $poll
+     * @return bool
+     * @throws \Exception
+     */
+    public function deletePoll(Poll $poll)
+    {
+        if (empty($poll->getAdminKey())) {
+            throw new \Exception(sprintf('Admin key not available. Poll %s cannot be deleted.', $poll->getId()), 1443782170);
+        }
+
+        $data = array(
+            'adminKey' => $poll->getAdminKey(),
+            'token' => $this->token,
+        );
+        $response = $this->doPost('/np/new-polls/' . $poll->getId() . '/delete', $data);
+    }
+
+    /**
      * Returns information about a given poll.
      *
      * @param Poll $poll

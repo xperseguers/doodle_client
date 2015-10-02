@@ -88,6 +88,17 @@ echo 'link to new poll: ' . $newPoll->getPublicUrl();
 ```
 
 
+Delete a Poll
+=============
+
+```
+// Selection of a given poll could be based on any "$poll" from the
+// foreach loop in "Basic Usage" example.
+
+$client->deletePoll($poll);
+```
+
+
 Table of Answers
 ================
 
