@@ -50,7 +50,7 @@ Create a Poll (Text Options)
 ============================
 
 ```
-$newPoll = $client->createPoll(array(
+$newPoll = $client->createPoll([
     'type' => 'text',
     'title' => 'Dinner',
     'location' => 'Restaurant Xtra',
@@ -62,7 +62,7 @@ $newPoll = $client->createPoll(array(
         'Pizza',
         'Meat',
     ],
-));
+]);
 echo 'link to new poll: ' . $newPoll->getPublicUrl();
 ```
 
@@ -71,7 +71,7 @@ Create a Poll (Dates)
 =====================
 
 ```
-$newPoll = $client->createPoll(array(
+$newPoll = $client->createPoll([
     'type' => 'date',
     'title' => 'Dinner',
     'location' => 'Restaurant Xtra',
@@ -83,7 +83,7 @@ $newPoll = $client->createPoll(array(
         '20150930' => ['2000'],
         '20151030' => ['1945', '2000'],
     ],
-));
+]);
 echo 'link to new poll: ' . $newPoll->getPublicUrl();
 ```
 
