@@ -155,7 +155,7 @@ class Poll
      * @param string $id
      * @param PollRepository $repository
      */
-    public function __construct($id, PollRepository $repository = null)
+    public function __construct($id = '', PollRepository $repository = null)
     {
         $this->id = $id;
         $this->_repository = $repository;
@@ -169,6 +169,18 @@ class Poll
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Sets the ID.
+     *
+     * @param string $id
+     * @return $this
+     * @internal
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     /**
