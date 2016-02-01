@@ -235,6 +235,7 @@ class Client {
      * Returns personal polls.
      *
      * @return Poll[]
+     * @throws \Causal\DoodleClient\Exception\UnauthenticatedException
      */
     public function getPersonalPolls()
     {
@@ -244,6 +245,9 @@ class Client {
             'token' => $this->token,
         );
         $response = $this->doGet('/np/users/me/dashboard/myPolls', $data);
+        if (strpos($response, '<title>Doodle: Not found') !== false) {
+            throw new \Causal\DoodleClient\Exception\UnauthenticatedException('Doodle returned an error while fetching polls. Either you are not authenticated or your token is considered to be outdated.', 1454323881);
+        }
         $polls = json_decode($response, true);
 
         $objects = array();
