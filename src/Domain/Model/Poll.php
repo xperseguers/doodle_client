@@ -226,6 +226,7 @@ class Poll
     {
         $title = trim($title);
         $this->title = substr($title, 0, min(static::MAX_LENGTH_TITLE, strlen($title)));
+
         return $this;
     }
 
@@ -248,6 +249,7 @@ class Poll
     public function setState($state)
     {
         $this->state = $state;
+
         return $this;
     }
 
@@ -270,6 +272,7 @@ class Poll
     public function setAdminKey($adminKey)
     {
         $this->adminKey = $adminKey;
+
         return $this;
     }
 
@@ -292,6 +295,7 @@ class Poll
     public function setMultiDay($multiDay)
     {
         $this->multiDay = (bool)$multiDay;
+
         return $this;
     }
 
@@ -314,6 +318,7 @@ class Poll
     public function setRowConstraint($rowConstraint)
     {
         $this->rowConstraint = (bool)$rowConstraint;
+
         return $this;
     }
 
@@ -336,6 +341,7 @@ class Poll
     public function setByInvitation($byInvitation)
     {
         $this->byInvitation = (bool)$byInvitation;
+
         return $this;
     }
 
@@ -358,6 +364,7 @@ class Poll
     public function setInviteesCount($inviteesCount)
     {
         $this->inviteesCount = (int)$inviteesCount;
+
         return $this;
     }
 
@@ -380,6 +387,7 @@ class Poll
     public function setParticipantsCount($participantsCount)
     {
         $this->participantsCount = (int)$participantsCount;
+
         return $this;
     }
 
@@ -402,6 +410,7 @@ class Poll
     public function setAskAddress($askAddress)
     {
         $this->askAddress = (bool)$askAddress;
+
         return $this;
     }
 
@@ -424,6 +433,7 @@ class Poll
     public function setAskEmail($askEmail)
     {
         $this->askEmail = (bool)$askEmail;
+
         return $this;
     }
 
@@ -446,6 +456,7 @@ class Poll
     public function setAskPhone($askPhone)
     {
         $this->askPhone = (bool)$askPhone;
+
         return $this;
     }
 
@@ -468,6 +479,7 @@ class Poll
     public function setAmINotified($amINotified)
     {
         $this->amINotified = (bool)$amINotified;
+
         return $this;
     }
 
@@ -490,6 +502,7 @@ class Poll
     public function setLastWriteAccess(\DateTime $lastWriteAccess)
     {
         $this->lastWriteAccess = $lastWriteAccess;
+
         return $this;
     }
 
@@ -512,6 +525,7 @@ class Poll
     public function setLastActivity(\DateTime $lastActivity)
     {
         $this->lastActivity = $lastActivity;
+
         return $this;
     }
 
@@ -527,6 +541,7 @@ class Poll
         } else {
             $publicUrl = 'http://doodle.com/poll/' . $this->getId();
         }
+
         return $publicUrl;
     }
 
@@ -537,10 +552,10 @@ class Poll
      */
     public function getDescription()
     {
-        if ($this->description === null && $this->_repository !== null)
-        {
+        if ($this->description === null && $this->_repository !== null) {
             $this->_repository->injectDescription($this);
         }
+
         return $this->description ?: '';
     }
 
@@ -554,6 +569,7 @@ class Poll
     {
         $description = trim($description);
         $this->description = substr($description, 0, min(static::MAX_LENGTH_DESCRIPTION, strlen($description)));
+
         return $this;
     }
 
@@ -567,6 +583,7 @@ class Poll
         if ($this->options === null && $this->_repository !== null) {
             $this->_repository->injectOptions($this);
         }
+
         return $this->options ?: array();
     }
 
@@ -579,6 +596,7 @@ class Poll
     public function setOptions(array $options)
     {
         $this->options = $options;
+
         return $this;
     }
 
@@ -592,6 +610,7 @@ class Poll
         if ($this->participants === null && $this->_repository !== null) {
             $this->_repository->injectParticipants($this);
         }
+
         return $this->participants ?: array();
     }
 
@@ -604,6 +623,7 @@ class Poll
     public function setParticipants(array $participants)
     {
         $this->participants = $participants;
+
         return $this;
     }
 
@@ -617,6 +637,7 @@ class Poll
         if ($this->location === false && $this->_repository !== null) {
             $this->_repository->injectLocation($this);
         }
+
         return $this->location ?: null;
     }
 
@@ -629,6 +650,7 @@ class Poll
     public function setLocation(Location $location = null)
     {
         $this->location = $location;
+
         return $this;
     }
 
@@ -642,6 +664,7 @@ class Poll
         if ($this->_info === null && $this->_repository !== null) {
             $this->_repository->injectInfo($this);
         }
+
         return !empty($this->_info['exportExcelUrl']) ? 'https://doodle.com' . $this->_info['exportExcelUrl'] : '';
     }
 
@@ -655,6 +678,7 @@ class Poll
         if ($this->_info === null && $this->_repository !== null) {
             $this->_repository->injectInfo($this);
         }
+
         return !empty($this->_info['exportPdfUrl']) ? 'https://doodle.com' . $this->_info['exportPdfUrl'] : '';
     }
 
@@ -668,6 +692,7 @@ class Poll
         if ($this->_info === null && $this->_repository !== null) {
             $this->_repository->injectInfo($this);
         }
+
         return !empty($this->_info['exportPrintUrl']) ? 'https://doodle.com' . $this->_info['exportPrintUrl'] : '';
     }
 
@@ -688,6 +713,7 @@ class Poll
     public function _setInfo(array $info)
     {
         $this->_info = $info;
+
         return $this;
     }
 

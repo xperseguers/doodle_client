@@ -90,6 +90,7 @@ class Participant
     public function setName($name)
     {
         $this->name = trim($name);
+
         return $this;
     }
 
@@ -112,6 +113,7 @@ class Participant
     public function setAvatar($avatar)
     {
         $this->avatar = $avatar;
+
         return $this;
     }
 
@@ -134,6 +136,7 @@ class Participant
     public function setPreferences(array $preferences)
     {
         $this->preferences = $preferences;
+
         return $this;
     }
 
@@ -150,6 +153,7 @@ class Participant
     public function setUserBehindParticipant($userBehindParticipant)
     {
         $this->userBehindParticipant = $userBehindParticipant;
+
         return $this;
     }
 

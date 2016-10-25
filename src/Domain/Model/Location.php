@@ -68,6 +68,7 @@ class Location
     public function setName($name)
     {
         $this->name = trim($name);
+
         return $this;
     }
 
@@ -90,6 +91,7 @@ class Location
     public function setAddress($address)
     {
         $this->address = trim($address);
+
         return $this;
     }
 
@@ -112,6 +114,7 @@ class Location
     public function setCountry($country)
     {
         $this->country = trim($country);
+
         return $this;
     }
 

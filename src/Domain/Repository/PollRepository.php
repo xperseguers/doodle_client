@@ -101,6 +101,7 @@ class PollRepository
             $info = $this->client->_getInfo($poll);
             $poll->_setInfo($info);
         }
+
         return $info;
     }
 
@@ -199,6 +200,7 @@ class PollRepository
     {
         $text = html_entity_decode($html);
         $text = preg_replace('#<br\s*/?>#', LF, $text);
+
         return $text;
     }
 

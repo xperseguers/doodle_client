@@ -33,7 +33,7 @@ if (!function_exists('http_build_query')) {
     throw new Exception('Doodle PHP Client requires http_build_query()', 1443412105);
 }
 
-if (! ini_get('date.timezone') && function_exists('date_default_timezone_set')) {
+if (!ini_get('date.timezone') && function_exists('date_default_timezone_set')) {
     date_default_timezone_set('UTC');
 }
 
@@ -45,7 +45,8 @@ use Causal\DoodleClient\Domain\Repository\PollRepository;
  *
  * @package Causal\DoodleClient
  */
-class Client {
+class Client
+{
 
     /**
      * @var string
@@ -118,6 +119,7 @@ class Client {
     public function setUserAgent($userAgent)
     {
         $this->userAgent = $userAgent;
+
         return $this;
     }
 
@@ -140,6 +142,7 @@ class Client {
     public function setLocale($locale)
     {
         $this->locale = $locale;
+
         return $this;
     }
 
@@ -162,6 +165,7 @@ class Client {
     public function setCookiePath($cookiePath)
     {
         $this->cookiePath = rtrim($cookiePath, '/') . '/';
+
         return $this;
     }
 
@@ -177,8 +181,7 @@ class Client {
         $this->doGet('/');
 
         $this->token = $this->getToken();
-        if ($this->token !== null)
-        {
+        if ($this->token !== null) {
             // Already properly authenticated
             return;
         }
@@ -398,6 +401,7 @@ class Client {
             ->setState($ret['state'])
             ->setAdminKey($ret['adminKey'])
             ->setTitle($ret['title']);
+
         return $poll;
     }
 
@@ -458,7 +462,7 @@ class Client {
         $response = $this->doGet('/poll/' . $poll->getId(), $data);
 
         $info = array();
-        if (($pos = strpos($response, '$.extend(true, doodleJS.data, {"poll"')) !== FALSE) {
+        if (($pos = strpos($response, '$.extend(true, doodleJS.data, {"poll"')) !== false) {
             $json = substr($response, $pos + 30);
             $json = trim(substr($json, 0, strpos($json, 'doodleJS.data.poll.keywordsJson')));
             // Remove the end of the javascript code
@@ -467,6 +471,7 @@ class Client {
         }
 
         $info = !empty($info['poll']) ? $info['poll'] : array();
+
         return $info;
     }
 
