@@ -360,6 +360,9 @@ class Client
         if (isset($info['hidden'])) {
             $data['hidden'] = (bool)$info['hidden'] ? 'true' : 'false';
         }
+        if (isset($info['columnConstraint'])) {
+            $data['columnConstraint'] = $info['columnConstraint'];
+        }
         // Require a premium account or will be ignored
         if (isset($info['askAddress'])) {
             $data['askAddress'] = (bool)$info['askAddress'] ? 'true' : 'false';
@@ -369,6 +372,9 @@ class Client
         }
         if (isset($info['askPhone'])) {
             $data['askPhone'] = (bool)$info['askPhone'] ? 'true' : 'false';
+        }
+        if (isset($info['country'])) {
+            $data['country'] = $info['country'];
         }
 
         if ($type === Poll::TYPE_TEXT) {
