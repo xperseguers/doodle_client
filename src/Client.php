@@ -422,6 +422,26 @@ class Client {
     }
 
     /**
+     * Deletes a participant.
+     *
+     * @param Poll $poll
+     * @param string $participantId
+     * @return void
+     * @throws \Exception
+     */
+    public function deleteParticipant(Poll $poll, $participantId)
+    {
+        if (empty($poll->getAdminKey())) {
+            throw new \Exception(sprintf('Admin key not available. Participant %s cannot be deleted.', $participantId), 1477378247);
+        }
+        $data = array(
+            'adminKey' => $poll->getAdminKey(),
+            'token' => $this->token,
+        );
+        $response = $this->doPost('/np/new-polls/' . $poll->getId() . '/participants/' . $participantId . '/delete', $data);
+    }
+
+    /**
      * Returns information about a given poll.
      *
      * @param Poll $poll
