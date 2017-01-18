@@ -392,7 +392,7 @@ class Poll
     }
 
     /**
-     * Returns wether the address should be asked for.
+     * Returns whether the address should be asked for.
      *
      * @return bool
      */
@@ -402,7 +402,7 @@ class Poll
     }
 
     /**
-     * Sets wether the address should be asked for.
+     * Sets whether the address should be asked for.
      *
      * @param bool $askAddress
      * @return $this
@@ -415,7 +415,7 @@ class Poll
     }
 
     /**
-     * Returns wether the email address should be asked for.
+     * Returns whether the email address should be asked for.
      *
      * @return bool
      */
@@ -425,7 +425,7 @@ class Poll
     }
 
     /**
-     * Sets wether the email address should be asked for.
+     * Sets whether the email address should be asked for.
      *
      * @param bool $askEmail
      * @return $this
@@ -438,7 +438,7 @@ class Poll
     }
 
     /**
-     * Returns wether the phone should be asked for.
+     * Returns whether the phone should be asked for.
      *
      * @return bool
      */
@@ -448,7 +448,7 @@ class Poll
     }
 
     /**
-     * Sets wether the phone should be asked for.
+     * Sets whether the phone should be asked for.
      *
      * @param bool $askPhone
      * @return $this
