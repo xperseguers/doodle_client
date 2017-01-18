@@ -2,7 +2,7 @@
 Doodle Client
 =============
 
-This library provides a missing feature of Doodle (http://doodle.com): an API to programmatically access and create
+This library provides a missing feature of Doodle (https://doodle.com): an API to programmatically access and create
 polls on the Doodle platform.
 
 I was surprised to find only a basic API to *initiate* polls (not actually creating them, just pre-filling the form) but

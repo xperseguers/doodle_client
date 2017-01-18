@@ -539,7 +539,7 @@ class Poll
         if (!empty($this->_info['prettyUrl'])) {
             $publicUrl = $this->_info['prettyUrl'];
         } else {
-            $publicUrl = 'http://doodle.com/poll/' . $this->getId();
+            $publicUrl = 'https://doodle.com/poll/' . $this->getId();
         }
 
         return $publicUrl;

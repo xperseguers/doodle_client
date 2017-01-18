@@ -17,7 +17,7 @@
 namespace Causal\DoodleClient\Exception;
 
 /**
- * Client for Doodle (http://doodle.com).
+ * Client for Doodle (https://doodle.com).
  *
  * @package Causal\DoodleClient
  */

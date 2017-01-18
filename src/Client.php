@@ -41,7 +41,7 @@ use Causal\DoodleClient\Domain\Model\Poll;
 use Causal\DoodleClient\Domain\Repository\PollRepository;
 
 /**
- * Client for Doodle (http://doodle.com).
+ * Client for Doodle (https://doodle.com).
  *
  * @package Causal\DoodleClient
  */
@@ -515,7 +515,7 @@ class Client
      */
     protected function doRequest($method, $relativeUrl, array $data)
     {
-        $scheme = strlen($relativeUrl) > 4 && substr($relativeUrl, 0, 4) === '/np/' ? 'https' : 'http';
+        $scheme = 'https'; // strlen($relativeUrl) > 4 && substr($relativeUrl, 0, 4) === '/np/' ? 'https' : 'http';
         $url = $scheme . '://doodle.com' . $relativeUrl;
         $cookieFileName = $this->getCookieFileName();
         $dataQuery = http_build_query($data);
@@ -629,7 +629,7 @@ EOT;
      * Generates an authentication token.
      *
      * Business logic is inspired from
-     * http://doodle.com/builstatic/<timestamp>/doodle/js/common/loginUtils.js:updateToken()
+     * https://doodle.com/builstatic/<timestamp>/doodle/js/common/loginUtils.js:updateToken()
      *
      * @return void
      */
