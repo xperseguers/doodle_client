@@ -415,7 +415,7 @@ class Client
      * Deletes a poll.
      *
      * @param Poll $poll
-     * @return bool
+     * @return void
      * @throws \Exception
      */
     public function deletePoll(Poll $poll)
@@ -429,6 +429,31 @@ class Client
             'token' => $this->token,
         );
         $response = $this->doPost('/np/new-polls/' . $poll->getId() . '/delete', $data);
+    }
+
+    /**
+     * Invites new participants.
+     *
+     * @param Poll $poll
+     * @param array $emailAddresses
+     * @param string $personalMessage
+     * @return void
+     * @throws \Exception
+     */
+    public function inviteParticipants(Poll $poll, array $emailAddresses, $personalMessage)
+    {
+        if (empty($poll->getAdminKey())) {
+            throw new \Exception(sprintf('Admin key not available. Participants %s cannot be invited.', implode(', ', $emailAddresses)), 1488287858);
+        }
+
+        $data = array(
+            'adminKey' => $poll->getAdminKey(),
+            'token' => $this->token,
+            'newInvitees' => $emailAddresses,
+            'initiatorParticipates' => false,
+            'personalMessage' => $personalMessage,
+        );
+        $response = $this->doPost('/np/new-polls/' . $poll->getId() . '/admin/invite', $data);
     }
 
     /**

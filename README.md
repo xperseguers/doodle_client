@@ -88,6 +88,21 @@ echo 'link to new poll: ' . $newPoll->getPublicUrl();
 ```
 
 
+Invite participants
+===================
+
+```
+// Selection of a given poll could be based on any "$poll" from the
+// foreach loop in "Basic Usage" example or of course "$newPoll".
+$emailAdresses = [
+    'someone@example.tld',
+    'someone-else@gmail.com',
+];
+$message = 'Hey there! Please check this doodle!';
+$client->inviteParticipants($poll, $emailAddresses, $message);
+```
+
+
 Delete a Poll
 =============
 
