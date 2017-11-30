@@ -101,11 +101,16 @@ class Option
      */
     public function __toString(): string
     {
-        if ($this->date !== null) {
-            return strftime('%a %d.%m.%Y %R', $this->date->getTimestamp());
-        } else {
-            return $this->text;
+        $out = $this->text;
+
+        if ($this->dateStart !== null) {
+            $out = strftime('%a %d.%m.%Y %R', $this->dateStart->getTimestamp());
+            if ($this->dateEnd !== null && $this->dateEnd->getTimestamp() > 0) {
+                $out .= ' - ' . strftime('%a %d.%m.%Y %R', $this->dateEnd->getTimestamp());
+            }
         }
+
+        return $out;
     }
 
 }
