@@ -128,7 +128,7 @@ class PollRepository
     {
         $info = $this->injectInfo($poll);
         $type = $poll->getType();
-        $options = array();
+        $options = [];
         foreach ($info['optionsText'] as $optionText) {
             $option = $type === Poll::TYPE_DATE
                 ? new \DateTime($optionText)
@@ -149,9 +149,9 @@ class PollRepository
         $info = $this->injectInfo($poll);
         $options = $poll->getOptions();
         $countOptions = count($options);
-        $participants = array();
+        $participants = [];
         foreach ($info['participants'] as $p) {
-            $preferences = array();
+            $preferences = [];
             for ($i = 0; $i < $countOptions; $i++) {
                 $preferences[] = new Preference($options[$i], $p['preferences']{$i});
             }

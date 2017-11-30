@@ -584,7 +584,7 @@ class Poll
             $this->_repository->injectOptions($this);
         }
 
-        return $this->options ?: array();
+        return $this->options ?: [];
     }
 
     /**
@@ -611,7 +611,7 @@ class Poll
             $this->_repository->injectParticipants($this);
         }
 
-        return $this->participants ?: array();
+        return $this->participants ?: [];
     }
 
     /**
