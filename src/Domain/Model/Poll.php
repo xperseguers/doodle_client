@@ -645,11 +645,7 @@ class Poll
      */
     public function getExportExcelUrl(): string
     {
-        if ($this->_info === null && $this->_repository !== null) {
-            $this->_repository->injectInfo($this);
-        }
-
-        return !empty($this->_info['exportExcelUrl']) ? 'https://doodle.com' . $this->_info['exportExcelUrl'] : '';
+        return 'https://doodle.com/api/v2.0/polls/' . $this->id . '/export?formatType=XLS';
     }
 
     /**
@@ -659,11 +655,7 @@ class Poll
      */
     public function getExportPdfUrl(): string
     {
-        if ($this->_info === null && $this->_repository !== null) {
-            $this->_repository->injectInfo($this);
-        }
-
-        return !empty($this->_info['exportPdfUrl']) ? 'https://doodle.com' . $this->_info['exportPdfUrl'] : '';
+        return 'https://doodle.com/api/v2.0/polls/' . $this->id . '/export?formatType=PDF&download=true';
     }
 
     /**
@@ -673,11 +665,7 @@ class Poll
      */
     public function getExportPrintUrl(): string
     {
-        if ($this->_info === null && $this->_repository !== null) {
-            $this->_repository->injectInfo($this);
-        }
-
-        return !empty($this->_info['exportPrintUrl']) ? 'https://doodle.com' . $this->_info['exportPrintUrl'] : '';
+        return 'https://doodle.com/api/v2.0/polls/' . $this->id . '/export?formatType=PDF';
     }
 
     /**
