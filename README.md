@@ -134,19 +134,18 @@ foreach ($participants as $participant) {
     echo '<td>' . htmlspecialchars($participant->getName()) . '</td>';
     foreach ($participant->getPreferences() as $preference) {
         switch ($preference) {
-            case 'i':
-                $value = 'If needed';
-                $color = '#ffeda1';
+            case '0':
+                $value = 'NO';
+                $color = '#ffccca';
                 break;
             case '1':
                 $value = 'YES';
                 $color = '#d1f3d1';
                 break;
-            case '0':
-                $value = 'NO';
-                $color = '#ffccca';
+            case '2':
+                $value = 'If needed';
+                $color = '#ffeda1';
                 break;
-            case 'q':
             default:
                 $value = '?';
                 $color = '#eaeaea';
