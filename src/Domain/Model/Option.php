@@ -25,27 +25,45 @@ class Option
 {
 
     /**
+     * @var int
+     */
+    protected $id;
+
+    /**
      * @var string
      */
-    protected $text;
+    protected $text = '';
 
     /**
      * @var \DateTime
      */
-    protected $date;
+    protected $dateStart;
+
+    /**
+     * @var \DateTime
+     */
+    protected $dateEnd;
 
     /**
      * Option constructor.
      *
-     * @param string|\DateTime $textOrDate
+     * @param int $dateId
+     * @param \DateTime $start
+     * @param \DateTime $end
      */
-    public function __construct($textOrDate)
+    public function __construct(int $dateId, \DateTime $start, \DateTime $end)
     {
-        if ($textOrDate instanceof \DateTime) {
-            $this->date = $textOrDate;
-        } else {
-            $this->text = (string)$textOrDate;
-        }
+        $this->id = $dateId;
+        $this->dateStart = $start;
+        $this->dateEnd = $end;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     /**
@@ -53,7 +71,7 @@ class Option
      *
      * @return string
      */
-    public function getText()
+    public function getText(): string
     {
         return $this->text;
     }
@@ -63,15 +81,25 @@ class Option
      *
      * @return \DateTime
      */
-    public function getDate()
+    public function getDateStart()
     {
-        return $this->date;
+        return $this->dateStart;
+    }
+
+    /**
+     * Returns the date.
+     *
+     * @return \DateTime
+     */
+    public function getDateEnd(): \DatTime
+    {
+        return $this->dateEnd;
     }
 
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         if ($this->date !== null) {
             return strftime('%a %d.%m.%Y %R', $this->date->getTimestamp());

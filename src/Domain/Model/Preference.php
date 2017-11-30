@@ -32,7 +32,7 @@ class Preference
     /**
      * @var string
      */
-    protected $value;
+    protected $value = '';
 
     /**
      * Preference constructor.
@@ -40,7 +40,7 @@ class Preference
      * @param Option $option
      * @param string $value
      */
-    public function __construct(Option $option, $value)
+    public function __construct(Option $option, string $value)
     {
         $this->option = $option;
         $this->value = $value;
@@ -51,7 +51,7 @@ class Preference
      *
      * @return Option
      */
-    public function getOption()
+    public function getOption(): Option
     {
         return $this->option;
     }
@@ -61,7 +61,7 @@ class Preference
      *
      * @return string
      */
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }

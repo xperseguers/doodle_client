@@ -44,7 +44,7 @@ class Location
      *
      * @param string $name
      */
-    public function __construct($name)
+    public function __construct(string $name)
     {
         $this->name = $name;
     }
@@ -54,7 +54,7 @@ class Location
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -65,7 +65,7 @@ class Location
      * @param string $name
      * @return $this
      */
-    public function setName($name)
+    public function setName($name): string
     {
         $this->name = trim($name);
 
@@ -77,7 +77,7 @@ class Location
      *
      * @return string
      */
-    public function getAddress()
+    public function getAddress(): string
     {
         return $this->address;
     }
@@ -88,10 +88,9 @@ class Location
      * @param string $address
      * @return $this
      */
-    public function setAddress($address)
+    public function setAddress($address): Location
     {
         $this->address = trim($address);
-
         return $this;
     }
 
@@ -100,7 +99,7 @@ class Location
      *
      * @return string
      */
-    public function getCountry()
+    public function getCountry(): string
     {
         return $this->country;
     }
@@ -111,17 +110,16 @@ class Location
      * @param string $country
      * @return $this
      */
-    public function setCountry($country)
+    public function setCountry(string $country): Location
     {
         $this->country = trim($country);
-
         return $this;
     }
 
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->name;
     }

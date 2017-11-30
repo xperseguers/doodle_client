@@ -87,10 +87,9 @@ class Participant
      * @param string $name
      * @return $this
      */
-    public function setName($name)
+    public function setName(string $name): Participant
     {
         $this->name = trim($name);
-
         return $this;
     }
 
@@ -99,7 +98,7 @@ class Participant
      *
      * @return string
      */
-    public function getAvatar()
+    public function getAvatar(): string
     {
         return $this->avatar;
     }
@@ -110,7 +109,7 @@ class Participant
      * @param string $avatar
      * @return $this
      */
-    public function setAvatar($avatar)
+    public function setAvatar(string $avatar): Participant
     {
         $this->avatar = $avatar;
 
@@ -122,7 +121,7 @@ class Participant
      *
      * @return Preference[]
      */
-    public function getPreferences()
+    public function getPreferences(): array
     {
         return $this->preferences;
     }
@@ -136,7 +135,6 @@ class Participant
     public function setPreferences(array $preferences)
     {
         $this->preferences = $preferences;
-
         return $this;
     }
 
@@ -145,15 +143,20 @@ class Participant
      *
      * @return string
      */
-    public function getUserBehindParticipant()
+    public function getUserBehindParticipant(): string
     {
         return $this->userBehindParticipant;
     }
 
-    public function setUserBehindParticipant($userBehindParticipant)
+    /**
+     * Sets the user behind a participant.
+     *
+     * @param string $userBehindParticipant
+     * @return $this
+     */
+    public function setUserBehindParticipant(string $userBehindParticipant)
     {
         $this->userBehindParticipant = $userBehindParticipant;
-
         return $this;
     }
 

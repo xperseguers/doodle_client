@@ -52,7 +52,7 @@ class PollRepository
      * @param array $data
      * @return Poll
      */
-    public function create(array $data)
+    public function create(array $data): Poll
     {
         $poll = new Poll($data['id'], $this);
         $poll
@@ -94,7 +94,7 @@ class PollRepository
      * @param Poll $poll
      * @return array
      */
-    public function injectInfo(Poll $poll)
+    public function injectInfo(Poll $poll): array
     {
         $info = $poll->_getInfo();
         if ($info === null) {
@@ -128,12 +128,11 @@ class PollRepository
     {
         $info = $this->injectInfo($poll);
         $type = $poll->getType();
-        $options = [];
-        foreach ($info['optionsText'] as $optionText) {
-            $option = $type === Poll::TYPE_DATE
-                ? new \DateTime($optionText)
-                : $optionText;
-            $options[] = new Option($option);
+        $options = array();
+        foreach ($info['options'] as $i => $optionText) {
+            $start = date("Y-m-d\TH:i:s", substr($optionText['start'], 0, -3));
+            $end = date("Y-m-d\TH:i:s", substr($optionText['end'], 0, -3));
+            $options[] = new Option($i, new \DateTime($start), new \DateTime($end));
         }
         $poll->setOptions($options);
     }
@@ -153,15 +152,15 @@ class PollRepository
         foreach ($info['participants'] as $p) {
             $preferences = [];
             for ($i = 0; $i < $countOptions; $i++) {
-                $preferences[] = new Preference($options[$i], $p['preferences']{$i});
+                $preferences[] = new Preference($options[$i], $p['preferences'][$i]);
             }
 
             $participant = new Participant($p['id']);
             $participant
                 ->setName($p['name'])
-                ->setAvatar(isset($p['avatar']) ? $p['avatar'] : '')
+                ->setAvatar(isset($p['largeAvatarUrl']) ? $p['largeAvatarUrl'] : '')
                 ->setPreferences($preferences)
-                ->setUserBehindParticipant(isset($p['userBehindParticipant']) ? $p['userBehindParticipant'] : '');
+                ->setUserBehindParticipant(isset($p['userId']) ? $p['userId'] : '');
 
             $participants[] = $participant;
         }
@@ -196,7 +195,7 @@ class PollRepository
      * @param string $html
      * @return string
      */
-    protected function decodeHtml($html)
+    protected function decodeHtml($html): string
     {
         $text = html_entity_decode($html);
         $text = preg_replace('#<br\s*/?>#', LF, $text);

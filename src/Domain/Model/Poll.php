@@ -155,7 +155,7 @@ class Poll
      * @param string $id
      * @param PollRepository $repository
      */
-    public function __construct($id = '', PollRepository $repository = null)
+    public function __construct(string $id = '', PollRepository $repository = null)
     {
         $this->id = $id;
         $this->_repository = $repository;
@@ -166,7 +166,7 @@ class Poll
      *
      * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
@@ -178,7 +178,7 @@ class Poll
      * @return $this
      * @internal
      */
-    public function setId($id)
+    public function setId(string $id)
     {
         $this->id = $id;
     }
@@ -188,7 +188,7 @@ class Poll
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -199,7 +199,7 @@ class Poll
      * @param string $type
      * @return $this
      */
-    public function setType($type)
+    public function setType(string $type): Poll
     {
         $this->type = $type;
 
@@ -211,7 +211,7 @@ class Poll
      *
      * @return string
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -222,11 +222,10 @@ class Poll
      * @param string $title
      * @return $this
      */
-    public function setTitle($title)
+    public function setTitle(string $title): Poll
     {
         $title = trim($title);
         $this->title = substr($title, 0, min(static::MAX_LENGTH_TITLE, strlen($title)));
-
         return $this;
     }
 
@@ -235,7 +234,7 @@ class Poll
      *
      * @return string
      */
-    public function getState()
+    public function getState(): string
     {
         return $this->state;
     }
@@ -246,10 +245,9 @@ class Poll
      * @param string $state
      * @return $this
      */
-    public function setState($state)
+    public function setState(string $state): Poll
     {
         $this->state = $state;
-
         return $this;
     }
 
@@ -258,7 +256,7 @@ class Poll
      *
      * @return string
      */
-    public function getAdminKey()
+    public function getAdminKey(): string
     {
         return $this->adminKey;
     }
@@ -269,10 +267,9 @@ class Poll
      * @param string $adminKey
      * @return $this
      */
-    public function setAdminKey($adminKey)
+    public function setAdminKey(string $adminKey): Poll
     {
         $this->adminKey = $adminKey;
-
         return $this;
     }
 
@@ -281,7 +278,7 @@ class Poll
      *
      * @return bool
      */
-    public function getMultiDay()
+    public function getMultiDay(): bool
     {
         return $this->multiDay;
     }
@@ -292,10 +289,9 @@ class Poll
      * @param bool $multiDay
      * @return $this
      */
-    public function setMultiDay($multiDay)
+    public function setMultiDay(bool $multiDay): Poll
     {
-        $this->multiDay = (bool)$multiDay;
-
+        $this->multiDay = $multiDay;
         return $this;
     }
 
@@ -304,7 +300,7 @@ class Poll
      *
      * @return bool
      */
-    public function getRowConstraint()
+    public function getRowConstraint(): bool
     {
         return $this->rowConstraint;
     }
@@ -315,10 +311,9 @@ class Poll
      * @param bool $rowConstraint
      * @return $this
      */
-    public function setRowConstraint($rowConstraint)
+    public function setRowConstraint(bool $rowConstraint): Poll
     {
-        $this->rowConstraint = (bool)$rowConstraint;
-
+        $this->rowConstraint = $rowConstraint;
         return $this;
     }
 
@@ -327,7 +322,7 @@ class Poll
      *
      * @return bool
      */
-    public function getByInvitation()
+    public function getByInvitation(): bool
     {
         return $this->byInvitation;
     }
@@ -338,10 +333,9 @@ class Poll
      * @param bool $byInvitation
      * @return $this
      */
-    public function setByInvitation($byInvitation)
+    public function setByInvitation(bool $byInvitation): Poll
     {
-        $this->byInvitation = (bool)$byInvitation;
-
+        $this->byInvitation = $byInvitation;
         return $this;
     }
 
@@ -350,7 +344,7 @@ class Poll
      *
      * @return int
      */
-    public function getInviteesCount()
+    public function getInviteesCount(): int
     {
         return $this->inviteesCount;
     }
@@ -361,10 +355,9 @@ class Poll
      * @param int $inviteesCount
      * @return $this
      */
-    public function setInviteesCount($inviteesCount)
+    public function setInviteesCount(int $inviteesCount): Poll
     {
-        $this->inviteesCount = (int)$inviteesCount;
-
+        $this->inviteesCount = $inviteesCount;
         return $this;
     }
 
@@ -373,7 +366,7 @@ class Poll
      *
      * @return int
      */
-    public function getParticipantsCount()
+    public function getParticipantsCount(): int
     {
         return $this->participantsCount;
     }
@@ -384,10 +377,9 @@ class Poll
      * @param int $participantsCount
      * @return $this
      */
-    public function setParticipantsCount($participantsCount)
+    public function setParticipantsCount(int $participantsCount): Poll
     {
-        $this->participantsCount = (int)$participantsCount;
-
+        $this->participantsCount = $participantsCount;
         return $this;
     }
 
@@ -396,7 +388,7 @@ class Poll
      *
      * @return bool
      */
-    public function getAskAddress()
+    public function getAskAddress(): bool
     {
         return $this->askAddress;
     }
@@ -407,10 +399,9 @@ class Poll
      * @param bool $askAddress
      * @return $this
      */
-    public function setAskAddress($askAddress)
+    public function setAskAddress(bool $askAddress): Poll
     {
-        $this->askAddress = (bool)$askAddress;
-
+        $this->askAddress = $askAddress;
         return $this;
     }
 
@@ -419,7 +410,7 @@ class Poll
      *
      * @return bool
      */
-    public function getAskEmail()
+    public function getAskEmail(): bool
     {
         return $this->askEmail;
     }
@@ -430,10 +421,9 @@ class Poll
      * @param bool $askEmail
      * @return $this
      */
-    public function setAskEmail($askEmail)
+    public function setAskEmail(bool $askEmail): Poll
     {
-        $this->askEmail = (bool)$askEmail;
-
+        $this->askEmail = $askEmail;
         return $this;
     }
 
@@ -442,7 +432,7 @@ class Poll
      *
      * @return bool
      */
-    public function getAskPhone()
+    public function getAskPhone(): bool
     {
         return $this->askPhone;
     }
@@ -453,10 +443,9 @@ class Poll
      * @param bool $askPhone
      * @return $this
      */
-    public function setAskPhone($askPhone)
+    public function setAskPhone(bool $askPhone): Poll
     {
-        $this->askPhone = (bool)$askPhone;
-
+        $this->askPhone = $askPhone;
         return $this;
     }
 
@@ -465,7 +454,7 @@ class Poll
      *
      * @return bool
      */
-    public function getAmINotified()
+    public function getAmINotified(): bool
     {
         return $this->amINotified;
     }
@@ -476,10 +465,9 @@ class Poll
      * @param bool $amINotified
      * @return $this
      */
-    public function setAmINotified($amINotified)
+    public function setAmINotified(bool $amINotified): Poll
     {
-        $this->amINotified = (bool)$amINotified;
-
+        $this->amINotified = $amINotified;
         return $this;
     }
 
@@ -499,10 +487,9 @@ class Poll
      * @param \DateTime $lastWriteAccess
      * @return $this
      */
-    public function setLastWriteAccess(\DateTime $lastWriteAccess)
+    public function setLastWriteAccess(\DateTime $lastWriteAccess): Poll
     {
         $this->lastWriteAccess = $lastWriteAccess;
-
         return $this;
     }
 
@@ -522,10 +509,9 @@ class Poll
      * @param \DateTime $lastActivity
      * @return $this
      */
-    public function setLastActivity(\DateTime $lastActivity)
+    public function setLastActivity(\DateTime $lastActivity): Poll
     {
         $this->lastActivity = $lastActivity;
-
         return $this;
     }
 
@@ -534,7 +520,7 @@ class Poll
      *
      * @return string
      */
-    public function getPublicUrl()
+    public function getPublicUrl(): string
     {
         if (!empty($this->_info['prettyUrl'])) {
             $publicUrl = $this->_info['prettyUrl'];
@@ -550,7 +536,7 @@ class Poll
      *
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): string
     {
         if ($this->description === null && $this->_repository !== null) {
             $this->_repository->injectDescription($this);
@@ -565,7 +551,7 @@ class Poll
      * @param string $description
      * @return $this
      */
-    public function setDescription($description)
+    public function setDescription(string $description): Poll
     {
         $description = trim($description);
         $this->description = substr($description, 0, min(static::MAX_LENGTH_DESCRIPTION, strlen($description)));
@@ -578,7 +564,7 @@ class Poll
      *
      * @return Option[]
      */
-    public function getOptions()
+    public function getOptions(): array
     {
         if ($this->options === null && $this->_repository !== null) {
             $this->_repository->injectOptions($this);
@@ -593,7 +579,7 @@ class Poll
      * @param Option[] $options
      * @return $this
      */
-    public function setOptions(array $options)
+    public function setOptions(array $options): Poll
     {
         $this->options = $options;
 
@@ -605,7 +591,7 @@ class Poll
      *
      * @return Participant[]
      */
-    public function getParticipants()
+    public function getParticipants(): array
     {
         if ($this->participants === null && $this->_repository !== null) {
             $this->_repository->injectParticipants($this);
@@ -620,19 +606,18 @@ class Poll
      * @param Participant[] $participants
      * @return $this
      */
-    public function setParticipants(array $participants)
+    public function setParticipants(array $participants): Poll
     {
         $this->participants = $participants;
-
         return $this;
     }
 
     /**
      * Returns the location.
      *
-     * @return Location
+     * @return Location|null
      */
-    public function getLocation()
+    public function getLocation(): Location
     {
         if ($this->location === false && $this->_repository !== null) {
             $this->_repository->injectLocation($this);
@@ -647,10 +632,9 @@ class Poll
      * @param Location $location
      * @return $this
      */
-    public function setLocation(Location $location = null)
+    public function setLocation(Location $location = null): Poll
     {
         $this->location = $location;
-
         return $this;
     }
 
@@ -659,7 +643,7 @@ class Poll
      *
      * @return string
      */
-    public function getExportExcelUrl()
+    public function getExportExcelUrl(): string
     {
         if ($this->_info === null && $this->_repository !== null) {
             $this->_repository->injectInfo($this);
@@ -673,7 +657,7 @@ class Poll
      *
      * @return string
      */
-    public function getExportPdfUrl()
+    public function getExportPdfUrl(): string
     {
         if ($this->_info === null && $this->_repository !== null) {
             $this->_repository->injectInfo($this);
@@ -687,7 +671,7 @@ class Poll
      *
      * @return string
      */
-    public function getExportPrintUrl()
+    public function getExportPrintUrl(): string
     {
         if ($this->_info === null && $this->_repository !== null) {
             $this->_repository->injectInfo($this);
@@ -710,10 +694,9 @@ class Poll
      * @return $this
      * @internal
      */
-    public function _setInfo(array $info)
+    public function _setInfo(array $info): Poll
     {
         $this->_info = $info;
-
         return $this;
     }
 
