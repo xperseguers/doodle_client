@@ -1,6 +1,4 @@
-=============
-Doodle Client
-=============
+# Doodle Client
 
 This library provides a missing feature of Doodle (https://doodle.com): an API to programmatically access and create
 polls on the Doodle platform.
@@ -16,8 +14,7 @@ September 25th, 2015:
 As such I wrote this PHP client.
 
 
-Basic Usage
-===========
+## Basic Usage
 
 ```
 $doodleUsername = 'me@example.com';
@@ -46,8 +43,7 @@ echo '</ul>';
 $client->disconnect();
 ```
 
-Create a Poll (Text Options)
-============================
+## Create a Poll (Text Options)
 
 ```
 $newPoll = $client->createPoll([
@@ -67,8 +63,7 @@ echo 'link to new poll: ' . $newPoll->getPublicUrl();
 ```
 
 
-Create a Poll (Dates)
-=====================
+## Create a Poll (Dates)
 
 ```
 $newPoll = $client->createPoll([
@@ -88,8 +83,7 @@ echo 'link to new poll: ' . $newPoll->getPublicUrl();
 ```
 
 
-Invite participants
-===================
+## Invite participants
 
 ```
 // Selection of a given poll could be based on any "$poll" from the
@@ -103,8 +97,7 @@ $client->inviteParticipants($poll, $emailAddresses, $message);
 ```
 
 
-Delete a Poll
-=============
+## Delete a Poll
 
 ```
 // Selection of a given poll could be based on any "$poll" from the
@@ -114,8 +107,7 @@ $client->deletePoll($poll);
 ```
 
 
-Table of Answers
-================
+## Table of Answers
 
 Another example of use, would be to fetch answers for a given poll.
 
@@ -146,11 +138,11 @@ foreach ($participants as $participant) {
                 $value = 'If needed';
                 $color = '#ffeda1';
                 break;
-            case 'y':
+            case '1':
                 $value = 'YES';
                 $color = '#d1f3d1';
                 break;
-            case 'n':
+            case '0':
                 $value = 'NO';
                 $color = '#ffccca';
                 break;
