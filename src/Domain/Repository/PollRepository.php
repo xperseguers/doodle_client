@@ -130,9 +130,13 @@ class PollRepository
         $type = $poll->getType();
         $options = array();
         foreach ($info['options'] as $i => $optionText) {
-            $start = date("Y-m-d\TH:i:s", substr($optionText['start'], 0, -3));
-            $end = date("Y-m-d\TH:i:s", substr($optionText['end'], 0, -3));
-            $options[] = new Option($i, new \DateTime($start), new \DateTime($end));
+            if (!empty($optionText['text'])) {
+                $options[] = new Option($i, null, null, $optionText['text']);
+            } else {
+                $start = date("Y-m-d\TH:i:s", substr($optionText['start'], 0, -3));
+                $end = date("Y-m-d\TH:i:s", substr($optionText['end'], 0, -3));
+                $options[] = new Option($i, new \DateTime($start), new \DateTime($end));
+            }
         }
         $poll->setOptions($options);
     }

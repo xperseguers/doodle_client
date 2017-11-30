@@ -50,12 +50,14 @@ class Option
      * @param int $dateId
      * @param \DateTime $start
      * @param \DateTime $end
+     * @param string $text
      */
-    public function __construct(int $dateId, \DateTime $start, \DateTime $end)
+    public function __construct(int $dateId, \DateTime $start = null, \DateTime $end = null, string $text = null)
     {
         $this->id = $dateId;
         $this->dateStart = $start;
         $this->dateEnd = $end;
+        $this->text = $text;
     }
 
     /**
