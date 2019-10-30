@@ -2,7 +2,7 @@
   "name": "causal/doodle_client",
   "description": "A small, lightweight library to interact with Doodle (http://doodle.com)",
   "type": "library",
-  "license": "GPL-3.0+",
+  "license": "GPL-3.0-or-later",
   "homepage": "https://github.com/xperseguers/doodle_client",
   "keywords": [
     "doodle"
